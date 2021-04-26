@@ -41,8 +41,7 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
         this.toggleModal();
-        console.log("You have entered: " + JSON.stringify(values));
-        alert("You have entered: " + JSON.stringify(values));
+        this.props.addComment(this.props.campsiteId, values.rating, values.author, values.text);
     }
 
     render(){
@@ -103,7 +102,7 @@ class CommentForm extends Component {
     }
 }
 
-function RenderComments({comments}) {
+function RenderComments({comments, addComment, campsiteId}) {
     if (comments) {
         return (
             <div className="col-md-5 m-1">
@@ -120,7 +119,7 @@ function RenderComments({comments}) {
                            </div>
                         );
                     })}
-                    <CommentForm />
+                    <CommentForm campsiteId={campsiteId} addComment={addComment} />
                 </div>
             </div>
         );
@@ -145,7 +144,11 @@ function CampsiteInfo(props) {
                 </div>
                 <div className="row">
                     <RenderCampsite campsite={props.campsite} />
-                    <RenderComments comments={props.comments} />
+                    <RenderComments 
+                        comments={props.comments}
+                        addComment={props.addComment}
+                        campsiteId={props.campsite.id}
+                    />
                 </div>
             </div>
         );
